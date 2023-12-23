@@ -15,7 +15,7 @@ import lombok.Data;
 public class TelevisionEntity {
 	
 //	@TableGenerator(name = "yourTableGenerator", allocationSize = 1)
-//	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Id
 	int id;
 	String brand;

@@ -49,30 +49,47 @@ public class TelevisionServiceImpl implements TelevisionService {
 	}
 
 	public List<TelevisionEntity> excelToEntity(InputStream inputStream) {
-		log.info("running  excelToEntity to convert excel data to entity......" );
+		log.info("running  excelToEntity to convert excel data to entity......");
 
-		
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 
 			Sheet sheet = workbook.getSheetAt(0);
 			List<TelevisionEntity> list = new ArrayList<>();
 
-			int rowIndex=0;
+			int rowIndex = 0;
+			System.out.println("===========================");
 			for (Row row : sheet) {
-				if (rowIndex==0) {
+				
+				List<TelevisionEntity> entities = repo.findAll();
+
+				for (TelevisionEntity entity : entities) {
+
+					if (entity.getPic_name().equals(row.getCell(3).getStringCellValue())) {
+
+						rowIndex++;
+						continue;
+
+
+					}
+
+				}
+
+				if (rowIndex == 0) {
 					rowIndex++;
 					continue;
-					
+
 				}
+
+				
 
 				TelevisionEntity entity = new TelevisionEntity();
 
 				entity.setBrand(row.getCell(0).getStringCellValue());
-				System.out.println(row.getCell(0).getStringCellValue());
 				entity.setInfo(row.getCell(1).getStringCellValue());
 				entity.setPrice(row.getCell(2).getNumericCellValue());
 				entity.setPic_name(row.getCell(3).getStringCellValue());
+
 				list.add(entity);
 
 			}
@@ -90,12 +107,15 @@ public class TelevisionServiceImpl implements TelevisionService {
 
 	@Override
 	public boolean saveExcel(MultipartFile sheet) {
-		log.info("running saveExcel inside TelevisionServiceImpl......" );
+		log.info("running saveExcel inside TelevisionServiceImpl......");
 
 		try {
-			log.info("calling excelToEntity to convert excel data to entity......" );
+			log.info("calling excelToEntity to convert excel data to entity......");
 
 			List<TelevisionEntity> list = excelToEntity(sheet.getInputStream());
+
+			log.info("calling excelToEntity method to convert excel data to entity.....");
+
 			repo.saveAll(list);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

@@ -3,6 +3,7 @@ package com.xworkz.task.resource;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,17 +38,17 @@ public class TelevisionController {
 	
 	
 	@PostMapping(value = "/upload")
-	public ResponseEntity getExcelSheet(@RequestParam("sheet") MultipartFile sheet) {
+	public ResponseEntity<String> getExcelSheet(@RequestParam("sheet") MultipartFile sheet) {
 		log.info("running getExcelSheet inside TelevisionController......" );
 		if (!sheet.isEmpty()) {
 			service.saveExcel(sheet);
-			return ResponseEntity.ok(null);
+			return new ResponseEntity<String>("form submitted successFully", HttpStatus.ACCEPTED);
 
 
 		}else
 			
 			
-			return ResponseEntity.badRequest().build();
+			return new ResponseEntity<String>("please upload excelSheet", HttpStatus.ACCEPTED);
 		
 		
 		

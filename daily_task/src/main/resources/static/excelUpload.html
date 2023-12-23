@@ -42,13 +42,18 @@ body {
 
 
 
-	<form action="upload" enctype="multipart/form-data" class="bg-info container pt-9 border border-5 border border-dark" method="post">
-
-		<div>upload excel sheet</div>
+	<form action="upload" enctype="multipart/form-data"
+		class="bg-info container pt-9 border border-5 border border-dark"
+		method="post">
+		<span id="sheetError" style="color: red"></span> <br>
 		
-		<input class="form-control form-control-lg" type="file" accept=".xlsx" name="sheet"/>
+		<div>upload excel sheet</div>
 
-		<button class="btn btn-dark btn-lg" type="submit">submit</button>
+		<input class="form-control form-control-lg" type="file" accept=".xlsx"
+			name="sheet" id="excel" onchange="onSheet()" />
+
+		<button class="btn btn-dark btn-lg" type="submit" id="submitId"
+			disabled="disabled">submit</button>
 
 	</form>
 
@@ -73,6 +78,26 @@ body {
 			</div>
 		</div>
 	</nav>
+
+
+	<script>
+	
+		function onSheet() {
+			document.getElementById('submitId').disabled = 'disabled';
+			var sheet = document.getElementById("excel").value
+			if (sheet != null) {
+				document.getElementById('submitId').disabled = false;
+
+			}
+
+			else {
+				document.getElementById('submitId').disabled = 'disabled';
+
+				document.getElementById('sheetError').innerHTML = 'please upload a excel sheet';
+			}
+
+		}
+	</script>
 
 </body>
 
